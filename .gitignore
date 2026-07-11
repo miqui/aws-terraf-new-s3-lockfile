@@ -13,9 +13,11 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Backend config files with real values — keep examples only
+# Backend config and variable files with real values — keep examples only
 backend-configs/*.s3.tfbackend
 !backend-configs/*.s3.tfbackend.example
+backend-configs/*.tfvars
+!backend-configs/*.tfvars.example
 
 # Lambda build artifacts
 lambda/dist/
