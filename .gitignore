@@ -1,0 +1,32 @@
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfstate.*.backup
+*.tfplan
+*.tfplan.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Backend config files with real values — keep examples only
+backend-configs/*.s3.tfbackend
+!backend-configs/*.s3.tfbackend.example
+
+# Lambda build artifacts
+lambda/dist/
+lambda/node_modules/
+lambda/*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

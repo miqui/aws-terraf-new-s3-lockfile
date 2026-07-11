@@ -1,0 +1,75 @@
+##############################################################################
+# CI: Terraform fmt/validate + Node.js test
+#
+# Runs on every push and pull_request without AWS credentials.
+# 'terraform init -backend=false' is used so no backend is required.
+##############################################################################
+
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # --------------------------------------------------------------------------
+  # Terraform: fmt check + validate (no backend)
+  # --------------------------------------------------------------------------
+  terraform:
+    name: Terraform (${{ matrix.stack }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        stack:
+          - stacks/bootstrap
+          - stacks/app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.10"
+
+      - name: terraform fmt check
+        working-directory: ${{ matrix.stack }}
+        run: terraform fmt -check -recursive
+
+      - name: terraform init (no backend)
+        working-directory: ${{ matrix.stack }}
+        run: terraform init -backend=false
+
+      - name: terraform validate
+        working-directory: ${{ matrix.stack }}
+        run: terraform validate
+
+  # --------------------------------------------------------------------------
+  # Lambda: install + test
+  # --------------------------------------------------------------------------
+  lambda:
+    name: Lambda (Node.js 22)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: lambda/package-lock.json
+
+      - name: Install dependencies
+        working-directory: lambda
+        run: npm ci
+
+      - name: Run tests
+        working-directory: lambda
+        run: npm test

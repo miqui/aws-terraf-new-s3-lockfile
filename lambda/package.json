@@ -1,0 +1,14 @@
+{
+  "name": "aws-terraf-new-s3-lockfile-lambda",
+  "version": "1.0.0",
+  "description": "Node.js 22 Lambda handler for GET /health",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "test": "node --test test/index.test.mjs"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}

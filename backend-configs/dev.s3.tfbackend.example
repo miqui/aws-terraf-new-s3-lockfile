@@ -1,0 +1,18 @@
+##############################################################################
+# Sample dev backend config — copy to dev.s3.tfbackend and fill in values.
+# *.s3.tfbackend is git-ignored to avoid leaking account-specific information.
+#
+# Usage:
+#   cd stacks/app
+#   terraform init -backend-config=../../backend-configs/dev.s3.tfbackend
+##############################################################################
+
+bucket  = "REPLACE_WITH_YOUR_STATE_BUCKET_NAME"   # output of bootstrap stack
+key     = "app/dev/terraform.tfstate"
+region  = "us-east-1"                              # must match bootstrap region
+encrypt = true
+
+# Native S3 lock files — no DynamoDB table needed.
+# Requires Terraform >= 1.10 and s3:GetObject / s3:PutObject / s3:DeleteObject
+# on the <bucket>/<key>.tflock object.
+use_lockfile = true
