@@ -1,0 +1,9 @@
+# Development application inputs — copy to dev.tfvars and adjust as needed.
+# The real dev.tfvars is git-ignored; this example contains no secrets.
+
+aws_region         = "us-east-1"
+environment        = "dev"
+project            = "aws-terraf-new-s3-lockfile"
+lambda_memory_mb   = 256
+lambda_timeout_sec = 10
+log_retention_days = 14

@@ -3,8 +3,8 @@
 ##############################################################################
 
 locals {
-  name_prefix  = "${var.project}-${var.environment}"
-  lambda_src   = "${path.module}/../../lambda"
+  name_prefix = "${var.project}-${var.environment}"
+  lambda_src  = "${path.module}/../../lambda"
 }
 
 # Package the Lambda source into a zip archive
@@ -30,8 +30,8 @@ resource "aws_lambda_function" "health" {
   runtime          = "nodejs22.x"
   architectures    = ["arm64"]
 
-  role    = aws_iam_role.lambda_exec.arn
-  timeout = var.lambda_timeout_sec
+  role        = aws_iam_role.lambda_exec.arn
+  timeout     = var.lambda_timeout_sec
   memory_size = var.lambda_memory_mb
 
   # Explicitly reference the log group so Terraform manages creation order
@@ -44,8 +44,8 @@ resource "aws_lambda_function" "health" {
 
   environment {
     variables = {
-      NODE_ENV    = var.environment
-      LOG_LEVEL   = "info"
+      NODE_ENV  = var.environment
+      LOG_LEVEL = "info"
     }
   }
 

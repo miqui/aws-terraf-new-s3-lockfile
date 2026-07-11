@@ -101,12 +101,18 @@ terraform init -backend-config=../../backend-configs/dev.s3.tfbackend
 The backend uses `use_lockfile = true` (requires Terraform ≥ 1.10 and `s3:GetObject`/
 `s3:PutObject`/`s3:DeleteObject` on the lock key).
 
-### 4. Deploy (dev example)
+### 4. Plan and apply (dev example)
 
 ```bash
+cp ../../backend-configs/dev.tfvars.example ../../backend-configs/dev.tfvars
+# Edit dev.tfvars to override the non-secret defaults if needed.
 terraform plan  -var-file=../../backend-configs/dev.tfvars
 terraform apply -var-file=../../backend-configs/dev.tfvars
 ```
+
+`*.tfvars` files with real environment values are git-ignored. Do not put secrets in
+Terraform variable files or state; use a managed secret reference when application
+secrets are introduced.
 
 ---
 
